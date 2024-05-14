@@ -39,9 +39,17 @@ userSchema.statics.register = async(username, password) => {
         throw error;
     }
 } 
+// Compare hashed password
+userSchema.methods.comparePassword = async function(password) {
+    try {
+        return await bcrypt.compare(password, this.password);
+    } catch (error) {
+        throw error;
+    }
+}
 
 // Login user
-userSchema.statics.login = async(username, password) => {
+userSchema.statics.login = async function(username, password) {
     try {
         const user = await this.findOne({ username });
 
@@ -62,14 +70,7 @@ userSchema.statics.login = async(username, password) => {
     }
 }
 
-// Compare hashed password
-userSchema.methods.comparePassword = async(password) => {
-    try {
-        return await bcrypt.compare(password, this.password);
-    } catch (error) {
-        throw error;
-    }
-}
+
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;

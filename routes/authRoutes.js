@@ -52,12 +52,21 @@ router.post('/login', async(req, res) => {
             error = 'Invalid input, send password';
             return res.status(400).json({ error });
         }
+
         // Check credentials
-        if(username === 'emad' && password === 'password') {
-            res.status(200).json({ message: 'Login successful!'});
+        // Check if user exists
+        const user = await User.findOne({ username });
+        if(!user) {
+            error = 'Incorrect username or password'
+            return res.status(401).json({ error });
+        }
+        // Check password
+        const isPasswordMatched = await user.comparePassword(password);
+        if(!isPasswordMatched) {
+            error = 'Invalid input, send password';
+            return res.status(400).json({ error });
         } else {
-            error = 'Invalid username/password'
-            res.status(401).json({ error })
+            res.status(200).json({ message: 'User logged in!'});
         }
     } catch (error) {
         res.status(500).json({ error: 'Server error' });
