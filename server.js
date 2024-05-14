@@ -12,7 +12,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // Use the routes from authRoutes
-app.use('/api', authRoutes);
+app.use('/admin', authRoutes);
 
 const port = process.env.PORT || 3000;
 
