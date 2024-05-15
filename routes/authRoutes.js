@@ -6,13 +6,6 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 require('dotenv').config();
 
-// Connect to MongoDB
-mongoose.set("strictQuery", false);
-mongoose.connect(process.env.DATABASE).then(() => {
-    console.log('Connected to MongoDB');
-}).catch((error) => {
-    console.error('Error when trying to connect to database..');
-});
 
 
 router.post('/register', async(req, res) => {

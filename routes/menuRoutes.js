@@ -6,13 +6,7 @@ const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 
-// Connect to MongoDB
-mongoose.set("strictQuery", false);
-mongoose.connect(process.env.DATABASE).then(() => {
-    console.log('Connected to MongoDB');
-}).catch((error) => {
-    console.error('Error when trying to connect to database..');
-});
+
 
 // Get dishes
 router.get('/dishes', async(req, res) => {
