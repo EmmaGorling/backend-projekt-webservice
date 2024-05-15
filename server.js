@@ -2,6 +2,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/authRoutes');
+const menuRoutes = require('./routes/menuRoutes');
 const jwt = require('jsonwebtoken');
 const cors = require('cors');
 require('dotenv').config();
@@ -11,8 +12,9 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-// Use the routes from authRoutes
+// Use the routes from routes-folder
 app.use('/admin', authRoutes);
+app.use('/menu', menuRoutes);
 
 const port = process.env.PORT || 3000;
 
@@ -32,6 +34,7 @@ function authenticateToken(req, res, next) {
         next();
     });
 }
+
 
 // Start application
 app.listen(port, () => {
