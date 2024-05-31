@@ -1,7 +1,6 @@
-/* Roues for authorization */
+/* Routes for authorization */
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 require('dotenv').config();
@@ -11,13 +10,14 @@ require('dotenv').config();
 router.post('/register', async(req, res) => {
     try {
         // Get username and password from body
-        const {username, password } = req.body;
+        const { username, password } = req.body;
         let error = '';
-        // Validate input
+        // Validate username
         if(!username) {
             error = 'Invalid input, send username';
             return res.status(400).json({ error });
         }
+        // Validate password
         if(!password) {
             error = 'Invalid input, send password';
             return res.status(400).json({ error });
@@ -36,17 +36,16 @@ router.post('/login', async(req, res) => {
         // Get username and password from body
         const {username, password } = req.body;
         let error = '';
-        // Validate input
+        // Validate username
         if(!username) {
             error = 'Invalid input, send username';
             return res.status(400).json({ error });
         }
+        // Validate password
         if(!password) {
             error = 'Invalid input, send password';
             return res.status(400).json({ error });
         }
-
-        // Check credentials
         // Check if user exists
         const user = await User.findOne({ username });
         if(!user) {
@@ -56,8 +55,8 @@ router.post('/login', async(req, res) => {
         // Check password
         const isPasswordMatched = await user.comparePassword(password);
         if(!isPasswordMatched) {
-            error = 'Invalid input, send password';
-            return res.status(400).json({ error });
+            error = 'Incorrect username or password';
+            return res.status(401).json({ error });
         } else {
             // Create JWT
             const payload = { username: username };

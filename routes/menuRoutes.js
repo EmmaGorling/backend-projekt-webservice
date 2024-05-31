@@ -1,6 +1,6 @@
+/* Routes for menu */
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 const Dish = require('../models/Dish');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
